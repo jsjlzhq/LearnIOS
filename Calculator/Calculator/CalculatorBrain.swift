@@ -70,6 +70,8 @@ class CalculatorBrain
     {
         let (result, remainder) = evaluate(opStack)
         println("\(opStack) = \(result) with \(remainder) left over")
+        println("==============")
+        println(program)
         return result
     }
     
@@ -107,5 +109,31 @@ class CalculatorBrain
             }
         }
         return (nil, ops)
+    }
+    
+    //lecture 3
+    var program : AnyObject{
+        get{
+//            var returnValue = Array<String>()
+//            for op in opStack{
+//                returnValue.append(op.description)
+//            }
+//            return returnValue
+            
+            return opStack.map{ $0.description }
+        }
+        set{
+            var opvalue = [Op]()
+            if let valueSymbols = newValue as? Array<String>{
+                for valueSymbol in valueSymbols{
+                    if let operate = knownOps[valueSymbol]{
+                        opvalue.append(operate)
+                    }
+                    else if let operand = NSNumberFormatter().numberFromString(valueSymbol)?.doubleValue{
+                        opvalue.append(Op.Operand(operand))
+                    }
+                }
+            }
+        }
     }
 }
